@@ -1,7 +1,7 @@
 [project]
 name = "surfmesh"
-version = "0.2.12"
-description = "A Python library to create simple 3D Surface Meshs using Quadrilateral dominant faces."
+version = "0.3.0"
+description = "A Python library for structured quadrilateral surface mesh generation, designed for BEM and scientific computing."
 readme = "README.md"
 authors = [
     { name = "Chaitanya Kesanapalli", email = "7126460+ckesanapalli@users.noreply.github.com" }
@@ -11,16 +11,13 @@ dependencies = [
     "numpy>=1.24"
 ]
 classifiers = [
-  # How mature is this project? Common values are
-  #   3 - Alpha
-  #   4 - Beta
-  #   5 - Production/Stable
   "Development Status :: 4 - Beta",
-
-  # Indicate who your project is intended for
   "Intended Audience :: Science/Research",
+  "Intended Audience :: Developers",
   "License :: OSI Approved :: MIT License",
   "Topic :: Scientific/Engineering",
+  "Topic :: Scientific/Engineering :: Mathematics",
+  "Topic :: Scientific/Engineering :: Physics",
   "Topic :: Software Development :: Libraries :: Python Modules",
 
 
@@ -37,9 +34,6 @@ GitHub = "https://github.com/ckesanapalli/surfmesh"
 Documentation = "https://github.com/ckesanapalli/surfmesh/blob/master/README.md"
 Bug = "https://github.com/ckesanapalli/surfmesh/issues"
 
-
-[project.scripts]
-surfmesh = "surfmesh:main"
 
 [project.optional-dependencies]
 examples = [
