@@ -48,6 +48,9 @@ dev = [
     "ruff>=0.1.6",
     "mypy>=1.15.0",
 ]
+ipykernel = [
+    "matplotlib>=3.10.8",
+]
 
 [build-system]
 requires = ["hatchling"]
@@ -88,4 +91,10 @@ skip-magic-trailing-comma = false
 line-ending = "auto"
 docstring-code-format = false
 docstring-code-line-length = "dynamic"
+
+[dependency-groups]
+dev = [
+    "ipykernel>=7.2.0",
+    "matplotlib>=3.10.8",
+]
 

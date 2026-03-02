@@ -2600,19 +2600,35 @@ examples = [
     { name = "jupyterlab" },
     { name = "matplotlib" },
 ]
+ipykernel = [
+    { name = "matplotlib" },
+]
+
+[package.dev-dependencies]
+dev = [
+    { name = "ipykernel" },
+    { name = "matplotlib" },
+]
 
 [package.metadata]
 requires-dist = [
     { name = "ipykernel", marker = "extra == 'examples'", specifier = ">=6.29.5" },
     { name = "jupyterlab", marker = "extra == 'examples'", specifier = ">=4.4.0" },
     { name = "matplotlib", marker = "extra == 'examples'", specifier = ">=3.10.1" },
+    { name = "matplotlib", marker = "extra == 'ipykernel'", specifier = ">=3.10.8" },
     { name = "mypy", marker = "extra == 'dev'", specifier = ">=1.15.0" },
     { name = "numpy", specifier = ">=1.24" },
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.3.5" },
     { name = "pytest-cov", marker = "extra == 'dev'", specifier = ">=6.1.1" },
     { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.1.6" },
 ]
-provides-extras = ["examples", "dev"]
+provides-extras = ["examples", "dev", "ipykernel"]
+
+[package.metadata.requires-dev]
+dev = [
+    { name = "ipykernel", specifier = ">=7.2.0" },
+    { name = "matplotlib", specifier = ">=3.10.8" },
+]
 
 [[package]]
 name = "terminado"
