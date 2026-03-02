@@ -230,7 +230,7 @@ def flip_normals(mesh: ArrayLike) -> np.ndarray:
     >>> from surfmesh.operations.transform import flip_normals
     >>> mesh = np.arange(12).reshape(1, 4, 3).astype(float)
     >>> flipped = flip_normals(mesh)
-    >>> (flipped[0] == mesh[0, ::-1]).all()
+    >>> bool((flipped[0] == mesh[0, ::-1]).all())
     True
     """
     mesh = np.asarray(mesh, dtype=float)
