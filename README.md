@@ -1,4 +1,3 @@
-
 [![Python Package](https://github.com/ckesanapalli//surface-mesher/actions/workflows/python-package.yml/badge.svg)](https://github.com/ckesanapalli/surface-mesher/actions/workflows/python-package.yml/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/github/ckesanapalli/surface-mesher/badge.svg?branch=master)](https://coveralls.io/github/ckesanapalli/surface-mesher?branch=master)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.txt)
@@ -12,7 +11,6 @@
 </p>
 
 # **SurfMesh** - A Surface Meshing Python Library
-
 
 **SurfMesh** is a Python library for generating structured 3D surface meshes of primitive shapes, with a strong focus on **quadrilateral-dominant (quad) meshing**. The meshes are particularly suited for **visualization** and **Boundary Element Method (BEM)** simulations.
 
@@ -97,7 +95,7 @@ mesh = sm.mesh_between_edges([edge1, edge2], radial_resolution)
 print(f"Generated mesh with {mesh.shape[0]} quadrilateral faces.")
 
 fig, ax = plt.subplots(figsize=plot_res)
-collection = PatchCollection(map(Polygon, mesh), facecolor=FACE_COLOR, edgecolor="k", linewidth=0.3)
+collection = PatchCollection(map(Polygon, mesh), facecolor=FACE_COLOR, edgecolor='k', linewidth=0.3)
 ax.add_collection(collection)
 ax.set_xlim(mesh[:, :, 0].min() - 0.1, mesh[:, :, 0].max() + 0.1)
 ax.set_ylim(mesh[:, :, 1].min() - 0.1, mesh[:, :, 1].max() + 0.1)
@@ -266,23 +264,23 @@ plt.show()
 ```python
 # Sample 2D curve coordinates
 x = np.linspace(0, 1, 20)
-z = x**2  # Example curve (parabola)
+z = x ** 2  # Example curve (parabola)
 
 curves = np.array([x, z]).T
 # Revolve the curve
 segment_resolution = 20
-faces = sm.circular_revolve(curves, segment_resolution, start_angle=0, end_angle=2 * np.pi)
+faces = sm.circular_revolve(curves, segment_resolution, start_angle=0, end_angle=2*np.pi)
 
 # Plotting
 fig = plt.figure(figsize=plot_res)
-ax = fig.add_subplot(111, projection="3d")
+ax = fig.add_subplot(111, projection='3d')
 ax.add_collection3d(Poly3DCollection(faces, facecolors=FACE_COLOR, edgecolors="k", linewidths=1, alpha=0.5))
 ax.set_xlim(-x.max(), x.max())
 ax.set_ylim(-x.max(), x.max())
 ax.set_zlim(z.min(), z.max())
-ax.set_xlabel("X-axis")
-ax.set_ylabel("Y-axis")
-ax.set_zlabel("Z-axis")
+ax.set_xlabel('X-axis')
+ax.set_ylabel('Y-axis')
+ax.set_zlabel('Z-axis')
 plt.show()
 ```
 
@@ -300,14 +298,14 @@ x = np.linspace(1, 10, 10)
 z = np.log(x)
 main_curve = np.array([x, z]).T
 
-angle_rad = np.linspace(0, 4 * np.pi, 30)
-radius = angle_rad / 10
+angle_rad = np.linspace(0, 4*np.pi, 30)
+radius = angle_rad/10
 revolve_path = np.array([angle_rad, radius]).T
 
 revolved_mesh = sm.revolve_curve_along_path(main_curve, revolve_path)
 
 fig = plt.figure(figsize=plot_res)
-ax = fig.add_subplot(111, projection="3d")
+ax = fig.add_subplot(111, projection='3d')
 ax.add_collection3d(Poly3DCollection(revolved_mesh, facecolors=FACE_COLOR, edgecolors="k", alpha=0.5))
 ax.set_xlim(-x.max(), x.max())
 ax.set_ylim(-x.max(), x.max())
@@ -474,6 +472,7 @@ plt.show()
 
 
 ```python
+
 radius = 1.0
 radial_resolution = 20
 segment_resolution = 20
@@ -485,6 +484,7 @@ print(f"Generated a Radial Sphere Mesh with {faces.shape[0]} faces and {vertices
 print(f"Vertices shape: {vertices.shape}, Faces shape: {faces.shape}")
 print(f"First 5 vertices:\n{vertices[:5]}")
 print(f"First 5 faces:\n{faces[:5]}")
+
 ```
 
     Generated a Radial Sphere Mesh with 400 faces and 382 vertices.
@@ -514,42 +514,77 @@ inferred from what the boundary curve functions return.
 
 
 ```python
+from matplotlib.patches import FancyBboxPatch
+
 A, W = 0.25, 0.06  # sine amplitude, ribbon half-width
 ang_freq = 2.3 * np.pi  # sine angular frequency
 phase = -0.5
-
-
 def c(t):
     return np.c_[A * np.sin(ang_freq * t + phase), t]  # centerline
 
-
 def n(t):
-    return (lambda d: np.c_[-d[:, 1], d[:, 0]] / np.linalg.norm(d, axis=1, keepdims=True))(np.c_[A * ang_freq * np.cos(ang_freq * t + phase), np.ones_like(t)])
-
+    return (lambda d: np.c_[-d[:, 1], d[:, 0]] / np.linalg.norm(d, axis=1, keepdims=True))(
+    np.c_[A * ang_freq * np.cos(ang_freq * t + phase), np.ones_like(t)]
+)
 
 inner, outer = lambda t: c(t) - W * n(t), lambda t: c(t) + W * n(t)
 
-
 def cap(a, b):
     return lambda v: a[None] * (1 - v[:, None]) + b[None] * v[:, None]
-
-
-grid, faces = sm.coons_patch(inner, outer, cap(inner(np.zeros(1))[0], outer(np.zeros(1))[0]), cap(inner(np.ones(1))[0], outer(np.ones(1))[0]), nu=40, nv=5)
-
+ 
+grid, faces = sm.coons_patch(inner, outer, cap(inner(np.zeros(1))[0], outer(np.zeros(1))[0]),
+                           cap(inner(np.ones(1))[0], outer(np.ones(1))[0]), nu=40, nv=5)
+ 
 
 dim = grid.shape[-1]
 pts = grid.reshape(-1, dim)
+
+x_min, x_max = pts[:, 0].min(), pts[:, 0].max()
+y_min, y_max = pts[:, 1].min(), pts[:, 1].max()
+
 fig, ax = plt.subplots(figsize=(7, 7))
-ax.add_collection(PolyCollection(list(faces), facecolors=FACE_COLOR, edgecolors="k", alpha=0.7))
-ax.set_xlim(pts[:, 0].min(), pts[:, 0].max())
-ax.set_ylim(pts[:, 1].min(), pts[:, 1].max())
+
+
+ax.add_collection(
+    PolyCollection(
+        list(faces),
+        facecolors=FACE_COLOR,
+        edgecolors="k",
+        alpha=0.7,
+        zorder=2,
+    )
+)
+
+# Round the outer plot box to soften the rectangular outline
+pad = 0.08
+x0 = x_min - pad * (x_max - x_min)
+y0 = y_min - pad * (y_max - y_min)
+dx = (x_max - x_min) * (1 + 2 * pad)
+dy = (y_max - y_min) * (1 + 2 * pad)
+rounding_size = 0.2 * min(dx, dy)
+
+bg = FancyBboxPatch(
+    (x0, y0),
+    dx,
+    dy,
+    boxstyle=f"round,pad=0,rounding_size={rounding_size}",
+    facecolor="lightgray",
+    edgecolor="none",
+    zorder=0,
+)
+ax.add_patch(bg)
+ 
+ax.set_xlim(x0, x0 + dx)
+ax.set_ylim(y0, y0 + dy)
 ax.set_frame_on(False)
 ax.set_aspect("equal")
 ax.set_xticks([])
 ax.set_yticks([])
+
 plt.tight_layout()
-plt.savefig("../README_files/logo.png", bbox_inches="tight", dpi=50)
+plt.savefig("../README_files/logo.png", bbox_inches="tight", dpi=50, transparent=True)
 plt.show()
+
 ```
 
 
@@ -565,18 +600,14 @@ plt.show()
 def bottom(t: np.ndarray) -> np.ndarray:
     return np.c_[t, np.zeros_like(t), 0.3 * np.sin(np.pi * t)]
 
-
 def top(t: np.ndarray) -> np.ndarray:
     return np.c_[t, 2 * np.ones_like(t), 0.5 * np.sin(np.pi * t) + 0.4]
-
 
 def left(t: np.ndarray) -> np.ndarray:
     return np.c_[np.zeros_like(t), 2 * t, 0.4 * t]
 
-
 def right(t: np.ndarray) -> np.ndarray:
     return np.c_[np.ones_like(t), 2 * t**5, 0.3 * np.sin(np.pi * t) + 0.4 * t]
-
 
 grid, faces = sm.coons_patch(bottom, top, left, right, nu=24, nv=16)
 fig = plt.figure(figsize=plot_res)
@@ -591,6 +622,7 @@ ax.set_ylabel("Y")
 ax.set_zlabel("Z")
 plt.tight_layout()
 plt.show()
+
 ```
 
 
