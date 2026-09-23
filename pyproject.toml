@@ -1,6 +1,6 @@
 [project]
 name = "surfmesh"
-version = "0.2.12"
+version = "0.3.1"
 description = "A Python library to create simple 3D Surface Meshs using Quadrilateral dominant faces."
 readme = "README.md"
 authors = [
