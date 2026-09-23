@@ -3,7 +3,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.txt)
 [![Python Version](https://img.shields.io/pypi/pyversions/surfmesh)](https://www.python.org/downloads/)
 [![SurfMesh](https://img.shields.io/pypi/v/surfmesh)](https://pypi.org/project/surfmesh/)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15298588.svg)](https://doi.org/10.5281/zenodo.15298588)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22911870.svg)](https://doi.org/10.5281/zenodo.22911870)
 
 
 <p align="center">
