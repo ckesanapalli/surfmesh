@@ -1,5 +1,9 @@
+from typing import TYPE_CHECKING
+
 import numpy as np
-from numpy.typing import ArrayLike
+
+if TYPE_CHECKING:
+    from numpy.typing import ArrayLike
 
 
 def revolve_curve_along_path(curve: ArrayLike, revolve_path: ArrayLike) -> np.ndarray:

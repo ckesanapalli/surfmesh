@@ -1,5 +1,9 @@
+from typing import TYPE_CHECKING
+
 import numpy as np
-from numpy.typing import ArrayLike
+
+if TYPE_CHECKING:
+    from numpy.typing import ArrayLike
 
 
 def convert_2d_face_to_3d(quad_2d_mesh: np.ndarray, axis: int, offset: float) -> np.ndarray:

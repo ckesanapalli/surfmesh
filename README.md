@@ -1,3 +1,4 @@
+![](README_files/logo.png)
 # **SurfMesh** - A Surface Meshing Python Library
 
 [![Python Package](https://github.com/ckesanapalli//surface-mesher/actions/workflows/python-package.yml/badge.svg)](https://github.com/ckesanapalli/surface-mesher/actions/workflows/python-package.yml/badge.svg)
@@ -67,12 +68,13 @@ from pathlib import Path
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.patches import Polygon
-from matplotlib.collections import PatchCollection
+from matplotlib.collections import PatchCollection, PolyCollection
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
 import surfmesh as sm
 
 plot_res = (4, 4)
+FACE_COLOR = "skyblue"
 ```
 
 ## 1. Mesh Between Two Edges
@@ -91,7 +93,7 @@ mesh = sm.mesh_between_edges([edge1, edge2], radial_resolution)
 print(f"Generated mesh with {mesh.shape[0]} quadrilateral faces.")
 
 fig, ax = plt.subplots(figsize=plot_res)
-collection = PatchCollection(map(Polygon, mesh), facecolor='lightblue', edgecolor='k', linewidth=0.3)
+collection = PatchCollection(map(Polygon, mesh), facecolor=FACE_COLOR, edgecolor="k", linewidth=0.3)
 ax.add_collection(collection)
 ax.set_xlim(mesh[:, :, 0].min() - 0.1, mesh[:, :, 0].max() + 0.1)
 ax.set_ylim(mesh[:, :, 1].min() - 0.1, mesh[:, :, 1].max() + 0.1)
@@ -124,7 +126,7 @@ print(f"Generated radial disk mesh with {radial_mesh.shape[0]} quadrilateral fac
 
 fig, ax = plt.subplots(figsize=plot_res)
 patches = [Polygon(face, closed=True) for face in radial_mesh]
-collection = PatchCollection(patches, facecolors="lightblue", edgecolors="k", alpha=0.7)
+collection = PatchCollection(patches, facecolors=FACE_COLOR, edgecolors="k", alpha=0.7)
 ax.add_collection(collection)
 
 ax.set_xlim(-radius, radius)
@@ -158,7 +160,7 @@ square_centered_mesh = sm.disk_mesher_square_centered(radius, square_resolution,
 print(f"Generated square-centered disk mesh with {square_centered_mesh.shape[0]} quadrilateral faces.")
 
 fig, ax = plt.subplots(figsize=plot_res)
-collection = PatchCollection(map(Polygon, square_centered_mesh), facecolors="lightgreen", edgecolors="k", alpha=0.7)
+collection = PatchCollection(map(Polygon, square_centered_mesh), facecolors=FACE_COLOR, edgecolors="k", alpha=0.7)
 ax.add_collection(collection)
 
 ax.set_xlim(-radius, radius)
@@ -196,7 +198,7 @@ fig = plt.figure(figsize=plot_res)
 ax = fig.add_subplot(111, projection="3d")
 
 # Add each quad to the 3D plot
-poly = Poly3DCollection(faces, facecolors="skyblue", edgecolors="k", alpha=0.7)
+poly = Poly3DCollection(faces, facecolors=FACE_COLOR, edgecolors="k", alpha=0.7)
 ax.add_collection3d(poly)
 
 ax.set_xlabel("X")
@@ -233,7 +235,7 @@ print(mesh.shape)
 fig = plt.figure(figsize=plot_res)
 ax = fig.add_subplot(111, projection="3d")
 
-poly = Poly3DCollection(mesh, facecolors="lightgreen", edgecolors="k", alpha=0.6)
+poly = Poly3DCollection(mesh, facecolors=FACE_COLOR, edgecolors="k", alpha=0.6)
 ax.add_collection3d(poly)
 
 ax.set_xlabel("X")
@@ -260,23 +262,23 @@ plt.show()
 ```python
 # Sample 2D curve coordinates
 x = np.linspace(0, 1, 20)
-z = x ** 2  # Example curve (parabola)
+z = x**2  # Example curve (parabola)
 
 curves = np.array([x, z]).T
 # Revolve the curve
 segment_resolution = 20
-faces = sm.circular_revolve(curves, segment_resolution, start_angle=0, end_angle=2*np.pi)
+faces = sm.circular_revolve(curves, segment_resolution, start_angle=0, end_angle=2 * np.pi)
 
 # Plotting
 fig = plt.figure(figsize=plot_res)
-ax = fig.add_subplot(111, projection='3d')
-ax.add_collection3d(Poly3DCollection(faces, facecolors='g', linewidths=1, alpha=0.5))
+ax = fig.add_subplot(111, projection="3d")
+ax.add_collection3d(Poly3DCollection(faces, facecolors=FACE_COLOR, edgecolors="k", linewidths=1, alpha=0.5))
 ax.set_xlim(-x.max(), x.max())
 ax.set_ylim(-x.max(), x.max())
 ax.set_zlim(z.min(), z.max())
-ax.set_xlabel('X-axis')
-ax.set_ylabel('Y-axis')
-ax.set_zlabel('Z-axis')
+ax.set_xlabel("X-axis")
+ax.set_ylabel("Y-axis")
+ax.set_zlabel("Z-axis")
 plt.show()
 ```
 
@@ -290,19 +292,19 @@ plt.show()
 
 
 ```python
-x = np.linspace(1, 10, 100)
+x = np.linspace(1, 10, 10)
 z = np.log(x)
 main_curve = np.array([x, z]).T
 
-angle_rad = np.linspace(0, 4*np.pi, 100)
-radius = angle_rad/10
+angle_rad = np.linspace(0, 4 * np.pi, 30)
+radius = angle_rad / 10
 revolve_path = np.array([angle_rad, radius]).T
 
 revolved_mesh = sm.revolve_curve_along_path(main_curve, revolve_path)
 
 fig = plt.figure(figsize=plot_res)
-ax = fig.add_subplot(111, projection='3d')
-ax.add_collection3d(Poly3DCollection(revolved_mesh, alpha=0.5))
+ax = fig.add_subplot(111, projection="3d")
+ax.add_collection3d(Poly3DCollection(revolved_mesh, facecolors=FACE_COLOR, edgecolors="k", alpha=0.5))
 ax.set_xlim(-x.max(), x.max())
 ax.set_ylim(-x.max(), x.max())
 ax.set_zlim(z.min(), z.max())
@@ -334,7 +336,7 @@ print(mesh.shape)
 fig = plt.figure(figsize=plot_res)
 ax = fig.add_subplot(111, projection="3d")
 
-poly = Poly3DCollection(mesh, facecolors="lightgreen", edgecolors="k", alpha=0.6)
+poly = Poly3DCollection(mesh, facecolors=FACE_COLOR, edgecolors="k", alpha=0.6)
 ax.add_collection3d(poly)
 
 ax.set_xlabel("X")
@@ -368,13 +370,13 @@ height_resolution = 10
 # Generate the cylinder mesh
 mesh = sm.cylinder_mesher_square_centered(radius, height, radial_resolution, half_square_side_resolution, height_resolution)
 
-print(f"Generated a Square-Centered Cylinder Mesh.")
+print("Generated a Square-Centered Cylinder Mesh.")
 print(mesh.shape)
 
 fig = plt.figure(figsize=plot_res)
 ax = fig.add_subplot(111, projection="3d")
 
-poly = Poly3DCollection(mesh, facecolors="lightgreen", edgecolors="k", alpha=0.6)
+poly = Poly3DCollection(mesh, facecolors=FACE_COLOR, edgecolors="k", alpha=0.6)
 ax.add_collection3d(poly)
 
 ax.set_xlabel("X")
@@ -401,13 +403,13 @@ plt.show()
 ```python
 mesh = sm.sphere_mesher_from_projection(radius=1.0, resolution=10)
 
-print(f"Generated a Sphere Mesh from Cube Projection.")
+print("Generated a Sphere Mesh from Cube Projection.")
 print(mesh.shape)
 
 fig = plt.figure(figsize=plot_res)
 ax = fig.add_subplot(111, projection="3d")
 
-poly = Poly3DCollection(mesh, facecolors="lightgreen", edgecolors="k", alpha=0.6)
+poly = Poly3DCollection(mesh, facecolors=FACE_COLOR, edgecolors="k", alpha=0.6)
 ax.add_collection3d(poly)
 
 ax.set_xlabel("X")
@@ -437,13 +439,13 @@ radial_resolution = 20
 segment_resolution = 20
 mesh = sm.sphere_mesher_from_radial(radius, radial_resolution, segment_resolution)
 
-print(f"Generated a Radial Sphere Mesh.")
+print("Generated a Radial Sphere Mesh.")
 print(mesh.shape)
 
 fig = plt.figure(figsize=plot_res)
 ax = fig.add_subplot(111, projection="3d")
 
-poly = Poly3DCollection(mesh, facecolors="lightgreen", edgecolors="k", alpha=0.6)
+poly = Poly3DCollection(mesh, facecolors=FACE_COLOR, edgecolors="k", alpha=0.6)
 ax.add_collection3d(poly)
 
 ax.set_xlabel("X")
@@ -468,7 +470,6 @@ plt.show()
 
 
 ```python
-
 radius = 1.0
 radial_resolution = 20
 segment_resolution = 20
@@ -480,7 +481,6 @@ print(f"Generated a Radial Sphere Mesh with {faces.shape[0]} faces and {vertices
 print(f"Vertices shape: {vertices.shape}, Faces shape: {faces.shape}")
 print(f"First 5 vertices:\n{vertices[:5]}")
 print(f"First 5 faces:\n{faces[:5]}")
-
 ```
 
     Generated a Radial Sphere Mesh with 400 faces and 382 vertices.
@@ -502,31 +502,82 @@ print(f"First 5 faces:\n{faces[:5]}")
 ## 13. Create a Curvilinear Mesh from Four Edges
 
 Generate a structured quadrilateral mesh over a 4-sided curvilinear panel
-using a bilinearly-blended Coons patch (transfinite interpolation).
- 
- Given four boundary curves -- bottom, top, left, right -- each parameterized
-by t in [0, 1], this module fills in the interior surface points and the
-quad face connectivity needed to render the panel (e.g. with
-``mpl_toolkits.mplot3d.art3d.Poly3DCollection``)
+using a bilinearly-blended Coons patch (transfinite interpolation) --
+dimension-agnostic: works unchanged for 2D (x, y) or 3D (x, y, z) points,
+inferred from what the boundary curve functions return.
+
+## 2D Curvilinear Surface
+
+
+```python
+A, W = 0.25, 0.06  # sine amplitude, ribbon half-width
+ang_freq = 2.3 * np.pi  # sine angular frequency
+phase = -0.5
+
+
+def c(t):
+    return np.c_[A * np.sin(ang_freq * t + phase), t]  # centerline
+
+
+def n(t):
+    return (lambda d: np.c_[-d[:, 1], d[:, 0]] / np.linalg.norm(d, axis=1, keepdims=True))(np.c_[A * ang_freq * np.cos(ang_freq * t + phase), np.ones_like(t)])
+
+
+inner, outer = lambda t: c(t) - W * n(t), lambda t: c(t) + W * n(t)
+
+
+def cap(a, b):
+    return lambda v: a[None] * (1 - v[:, None]) + b[None] * v[:, None]
+
+
+grid, faces = sm.coons_patch(inner, outer, cap(inner(np.zeros(1))[0], outer(np.zeros(1))[0]), cap(inner(np.ones(1))[0], outer(np.ones(1))[0]), nu=40, nv=5)
+
+
+dim = grid.shape[-1]
+pts = grid.reshape(-1, dim)
+fig, ax = plt.subplots(figsize=(7, 7))
+ax.add_collection(PolyCollection(list(faces), facecolors=FACE_COLOR, edgecolors="k", alpha=0.7))
+ax.set_xlim(pts[:, 0].min(), pts[:, 0].max())
+ax.set_ylim(pts[:, 1].min(), pts[:, 1].max())
+ax.set_frame_on(False)
+ax.set_aspect("equal")
+ax.set_xticks([])
+ax.set_yticks([])
+plt.tight_layout()
+plt.savefig("../README_files/logo.png", bbox_inches="tight", dpi=50)
+plt.show()
+```
+
+
+    
+![png](README_files/README_27_0.png)
+    
+
+
+## 3D Curvilinear Surface
 
 
 ```python
 def bottom(t: np.ndarray) -> np.ndarray:
     return np.c_[t, np.zeros_like(t), 0.3 * np.sin(np.pi * t)]
 
+
 def top(t: np.ndarray) -> np.ndarray:
     return np.c_[t, 2 * np.ones_like(t), 0.5 * np.sin(np.pi * t) + 0.4]
+
 
 def left(t: np.ndarray) -> np.ndarray:
     return np.c_[np.zeros_like(t), 2 * t, 0.4 * t]
 
+
 def right(t: np.ndarray) -> np.ndarray:
     return np.c_[np.ones_like(t), 2 * t**5, 0.3 * np.sin(np.pi * t) + 0.4 * t]
+
 
 grid, faces = sm.coons_patch(bottom, top, left, right, nu=24, nv=16)
 fig = plt.figure(figsize=plot_res)
 ax = fig.add_subplot(111, projection="3d")
-ax.add_collection3d(Poly3DCollection(faces, facecolors="lightgreen", edgecolors="k", alpha=0.6))
+ax.add_collection3d(Poly3DCollection(faces, facecolors=FACE_COLOR, edgecolors="k", alpha=0.6))
 pts = grid.reshape(-1, 3)
 ax.set_xlim(pts[:, 0].min(), pts[:, 0].max())
 ax.set_ylim(pts[:, 1].min(), pts[:, 1].max())
@@ -536,12 +587,11 @@ ax.set_ylabel("Y")
 ax.set_zlabel("Z")
 plt.tight_layout()
 plt.show()
-
 ```
 
 
     
-![png](README_files/README_27_0.png)
+![png](README_files/README_29_0.png)
     
 
 

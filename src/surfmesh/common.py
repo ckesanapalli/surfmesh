@@ -1,5 +1,9 @@
+from typing import TYPE_CHECKING
+
 import numpy as np
-from numpy.typing import ArrayLike
+
+if TYPE_CHECKING:
+    from numpy.typing import ArrayLike
 
 
 def extract_vertices_faces(mesh: ArrayLike) -> tuple[np.ndarray, np.ndarray]:

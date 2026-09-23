@@ -1,7 +1,11 @@
+from typing import TYPE_CHECKING
+
 import numpy as np
-from numpy.typing import ArrayLike
 
 from .edge import convert_2d_face_to_3d, quad_faces_from_edges
+
+if TYPE_CHECKING:
+    from numpy.typing import ArrayLike
 
 
 def cuboid_mesher(x_coords: ArrayLike, y_coords: ArrayLike, z_coords: ArrayLike) -> np.ndarray:

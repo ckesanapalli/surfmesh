@@ -25,5 +25,5 @@ __all__ = [
     "rectangle_perimeter",
     "revolve_curve_along_path",
     "sphere_mesher_from_projection",
-    "sphere_mesher_from_radial"
+    "sphere_mesher_from_radial",
 ]
