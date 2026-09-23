@@ -69,6 +69,7 @@ exclude = [
     ".ruff_cache", ".svn", ".tox", ".venv", ".vscode", "__pypackages__",
     "_build", "buck-out", "build", "dist", "node_modules", "site-packages", "venv", "tests"
 ]
+force-exclude = true
 
 [tool.ruff.lint]
 select = [
@@ -83,7 +84,7 @@ fixable = ["ALL"]
 unfixable = []
 exclude = ["*.ipynb"]
 dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
-extend-select = ["E302", "E303"]
+extend-select = ["blank-lines-top-level", "too-many-blank-lines"]
 
 [tool.ruff.format]
 quote-style = "double"
@@ -94,3 +95,10 @@ line-ending = "auto"
 docstring-code-format = false
 docstring-code-line-length = "dynamic"
 
+[dependency-groups]
+dev = [
+    "mypy>=1.15.0",
+    "pytest>=8.3.5",
+    "pytest-cov>=6.1.1",
+    "ruff>=0.11.6",
+]

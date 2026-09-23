@@ -114,7 +114,8 @@ def mesh_between_edges(edges: ArrayLike, radial_resolution: int) -> np.ndarray:
     # shape: (2, N_vertices, radial_resolution)
 
     return (
-        np.array([
+        np
+        .array([
             interpolated[:, 1:, :-1],
             interpolated[:, 1:, 1:],
             interpolated[:, :-1, 1:],

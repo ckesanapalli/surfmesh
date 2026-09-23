@@ -499,6 +499,52 @@ print(f"First 5 faces:\n{faces[:5]}")
      [337 339 328 315]]
     
 
+## 13. Create a Curvilinear Mesh from Four Edges
+
+Generate a structured quadrilateral mesh over a 4-sided curvilinear panel
+using a bilinearly-blended Coons patch (transfinite interpolation).
+ 
+ Given four boundary curves -- bottom, top, left, right -- each parameterized
+by t in [0, 1], this module fills in the interior surface points and the
+quad face connectivity needed to render the panel (e.g. with
+``mpl_toolkits.mplot3d.art3d.Poly3DCollection``)
+
+
+```python
+def bottom(t: np.ndarray) -> np.ndarray:
+    return np.c_[t, np.zeros_like(t), 0.3 * np.sin(np.pi * t)]
+
+def top(t: np.ndarray) -> np.ndarray:
+    return np.c_[t, 2 * np.ones_like(t), 0.5 * np.sin(np.pi * t) + 0.4]
+
+def left(t: np.ndarray) -> np.ndarray:
+    return np.c_[np.zeros_like(t), 2 * t, 0.4 * t]
+
+def right(t: np.ndarray) -> np.ndarray:
+    return np.c_[np.ones_like(t), 2 * t**5, 0.3 * np.sin(np.pi * t) + 0.4 * t]
+
+grid, faces = sm.coons_patch(bottom, top, left, right, nu=24, nv=16)
+fig = plt.figure(figsize=plot_res)
+ax = fig.add_subplot(111, projection="3d")
+ax.add_collection3d(Poly3DCollection(faces, facecolors="lightgreen", edgecolors="k", alpha=0.6))
+pts = grid.reshape(-1, 3)
+ax.set_xlim(pts[:, 0].min(), pts[:, 0].max())
+ax.set_ylim(pts[:, 1].min(), pts[:, 1].max())
+ax.set_zlim(pts[:, 2].min(), pts[:, 2].max())
+ax.set_xlabel("X")
+ax.set_ylabel("Y")
+ax.set_zlabel("Z")
+plt.tight_layout()
+plt.show()
+
+```
+
+
+    
+![png](README_files/README_27_0.png)
+    
+
+
 ## Citation
 If you use this library in your research, please consider citing the following citation: [CITATION.bib](CITATION.bib)
 
@@ -537,7 +583,7 @@ print(content)
 - [x] Disk face mesh generation
 - [x] Revolve curve mesh generation
 - [x] Cylinder, and sphere support
-- [ ] Curvilinear mesh
+- [x] Curvilinear mesh
 - [ ] STL/PLY export support
 - [ ] Mesh visualization utilities
 - [ ] Export to BEM-compatible formats
