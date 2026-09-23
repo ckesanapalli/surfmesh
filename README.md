@@ -1,5 +1,3 @@
-![](README_files/logo.png)
-# **SurfMesh** - A Surface Meshing Python Library
 
 [![Python Package](https://github.com/ckesanapalli//surface-mesher/actions/workflows/python-package.yml/badge.svg)](https://github.com/ckesanapalli/surface-mesher/actions/workflows/python-package.yml/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/github/ckesanapalli/surface-mesher/badge.svg?branch=master)](https://coveralls.io/github/ckesanapalli/surface-mesher?branch=master)
@@ -8,6 +6,12 @@
 [![SurfMesh](https://img.shields.io/pypi/v/surfmesh)](https://pypi.org/project/surfmesh/)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15298588.svg)](https://doi.org/10.5281/zenodo.15298588)
 
+
+<p align="center">
+  <img src="README_files/logo.png" alt="Logo" width="200">
+</p>
+
+# **SurfMesh** - A Surface Meshing Python Library
 
 
 **SurfMesh** is a Python library for generating structured 3D surface meshes of primitive shapes, with a strong focus on **quadrilateral-dominant (quad) meshing**. The meshes are particularly suited for **visualization** and **Boundary Element Method (BEM)** simulations.
