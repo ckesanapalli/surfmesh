@@ -3,7 +3,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.txt)
 [![Python Version](https://img.shields.io/pypi/pyversions/surfmesh)](https://www.python.org/downloads/)
 [![SurfMesh](https://img.shields.io/pypi/v/surfmesh)](https://pypi.org/project/surfmesh/)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22911870.svg)](https://doi.org/10.5281/zenodo.22911870)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15298588.svg)](https://doi.org/10.5281/zenodo.15298588)
 
 
 <p align="center">
@@ -514,6 +514,40 @@ inferred from what the boundary curve functions return.
 
 
 ```python
+def bottom(t: np.ndarray) -> np.ndarray:
+    return np.c_[t, 0.4 * np.sin(2*np.pi * t)]
+
+def top(t: np.ndarray) -> np.ndarray:
+    return np.c_[t, 0.4 * np.sin(np.pi * t) + 1.0]
+
+def left(t: np.ndarray) -> np.ndarray:
+    return np.c_[np.zeros_like(t), t]
+
+def right(t: np.ndarray) -> np.ndarray:
+    return np.c_[np.ones_like(t), t]
+
+grid, faces = sm.coons_patch(bottom, top, left, right, nu=24, nv=16)
+fig = plt.figure(figsize=plot_res)
+ax = fig.add_subplot(111)
+ax.add_collection(PolyCollection(faces, facecolors=FACE_COLOR, edgecolors="k", alpha=0.6))
+pts = grid.reshape(-1, 2)
+ax.set_xlim(pts[:, 0].min(), pts[:, 0].max())
+ax.set_ylim(pts[:, 1].min(), pts[:, 1].max())
+ax.set_xlabel("X")
+ax.set_ylabel("Y")
+plt.tight_layout()
+plt.show()
+
+```
+
+
+    
+![png](README_files/README_27_0.png)
+    
+
+
+
+```python
 from matplotlib.patches import FancyBboxPatch
 
 A, W = 0.25, 0.06  # sine amplitude, ribbon half-width
@@ -589,7 +623,7 @@ plt.show()
 
 
     
-![png](README_files/README_27_0.png)
+![png](README_files/README_28_0.png)
     
 
 
@@ -627,7 +661,7 @@ plt.show()
 
 
     
-![png](README_files/README_29_0.png)
+![png](README_files/README_30_0.png)
     
 
 
