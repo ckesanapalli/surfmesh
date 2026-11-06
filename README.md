@@ -12,7 +12,7 @@
 
 # **SurfMesh** - A Surface Meshing Python Library
 
-**SurfMesh** is a Python library for generating structured 3D surface meshes of primitive shapes, with a strong focus on **quadrilateral-dominant (quad) meshing**. The meshes are particularly suited for **visualization** and **Boundary Element Method (BEM)** simulations.
+**SurfMesh** is a Python library for generating structured 3D surface meshes of primitive shapes, with a strong focus on quadrilateral-dominant (quad) meshing. The meshes are particularly suited for visualization and Boundary Element Method (BEM) simulations (a method for predicting how floating bodies move and are loaded by waves), including BEM mesh generation for marine structures and floating bodies built from primitive shapes.
 
 > ⚠️ This project is currently under active development.
 
